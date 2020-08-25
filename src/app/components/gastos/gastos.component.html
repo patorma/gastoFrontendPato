@@ -1,0 +1,58 @@
+<!-- inyectamos en el atributo gasto a un gasto seleccionado -->
+<!-- a la variable gasto del hijo (detalle) le asignamos el valor de gastoSeleccionado (gastos padre) -->
+<detalle-gasto *ngIf="gastoSeleccionado" [gasto]="gastoSeleccionado"></detalle-gasto>
+
+<div class="card border-primary tarjeta mb-3 panel">
+    <div class="card-header">Gastos</div>
+    <div class="card-body text-primary">
+        <h4 class="card-title">Listado de gastos</h4>
+        <div class="my-2 text-left">
+            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
+        Crear Cliente
+      </button>
+        </div>
+        <div *ngIf="gastos?.length == 0" class="alert alert-info">
+            No hay registros en la base de datos!
+        </div>
+        <table class="table table-bordered table-striped table-sm table-md" *ngIf="gastos?.length > 0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre gasto</th>
+                    <th>Valor</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Eliminar
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let gasto of gastos">
+                    <td>
+                        <button (click)="abrirModal(gasto)" class="btn btn-rounded btn-primary" type="button">
+              Detalle
+            </button>
+                    </td>
+                    <td>{{ gasto.nombre }}</td>
+                    <td>{{ gasto.valor }}</td>
+                    <td>{{ gasto.tipo.tipo }}</td>
+                    <td>{{ gasto.fecha | date: "EEEE dd, MMMM yyyy" }}</td>
+                    <td>
+                        <button type="button" name="editar" class="btn btn-primary">
+              editar
+            </button>
+                    </td>
+                    <td>
+                        <button type="button" name="eliminar" class="btn btn-danger" (click)="delete(gasto)">
+              eliminar
+            </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
