@@ -12,7 +12,7 @@ export class DetalleComponent implements OnInit {
   @Input() gasto: Gasto;
   titulo: string = 'Detalle del gasto';
 
-  constructor(private modalService: ModalService) {}
+  constructor(public modalService: ModalService) {}
 
   ngOnInit(): void {}
 

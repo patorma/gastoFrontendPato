@@ -7,8 +7,8 @@
     <div class="card-body text-primary">
         <h4 class="card-title">Listado de gastos</h4>
         <div class="my-2 text-left">
-            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
-        Crear Cliente
+            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/gastos/form']">
+        Crear Gasto
       </button>
         </div>
         <div *ngIf="gastos?.length == 0" class="alert alert-info">
@@ -33,16 +33,16 @@
             <tbody>
                 <tr *ngFor="let gasto of gastos">
                     <td>
-                        <button (click)="abrirModal(gasto)" class="btn btn-rounded btn-primary" type="button">
+                        <button (click)="abrirModal(gasto)" class="btn btn-rounded btn-primary" type="button"style="width: 84px; cursor:pointer;">
               Detalle
             </button>
                     </td>
                     <td>{{ gasto.nombre }}</td>
                     <td>{{ gasto.valor }}</td>
-                    <td>{{ gasto.tipo.tipo }}</td>
+                    <td>{{ gasto.tipo}}</td>
                     <td>{{ gasto.fecha | date: "EEEE dd, MMMM yyyy" }}</td>
                     <td>
-                        <button type="button" name="editar" class="btn btn-primary">
+                        <button type="button" name="editar"[routerLink]="['/gastos/form', gasto.id]" class="btn btn-primary">
               editar
             </button>
                     </td>
@@ -54,5 +54,6 @@
                 </tr>
             </tbody>
         </table>
+        <app-paginator *ngIf="paginador" [paginador]="paginador"></app-paginator>
     </div>
 </div>

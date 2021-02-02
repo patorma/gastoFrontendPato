@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { Tipo } from '../components/tipos/tipo';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Gasto } from '../components/gastos/gasto';
 import swal from 'sweetalert2';
@@ -16,9 +15,9 @@ export class GastoService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getTipo(): Observable<Tipo[]> {
-    return this.http.get<Tipo[]>(this.urlEndPoint);
-  }
+  // getTipo(): Observable<Tipo[]> {
+  //   return this.http.get<Tipo[]>(this.urlEndPoint);
+  // }
 
   getGastos(page: number): Observable<any> {
     /*se hace un cast porque devuelve un observable de gasto*/
