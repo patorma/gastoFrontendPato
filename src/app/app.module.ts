@@ -1,3 +1,4 @@
+// import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -15,6 +16,11 @@ import { DetalleComponent } from './components/gastos/detalle/detalle.component'
 import { FormComponent } from './components/gastos/form.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { NotasComponent } from './components/notas/notas.component';
+import { FormsModule } from "@angular/forms";
+
+// maneja fechas
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -33,6 +39,9 @@ import { NotasComponent } from './components/notas/notas.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule , 
   ],
   providers: [GastoService, ModalService],
   bootstrap: [AppComponent],

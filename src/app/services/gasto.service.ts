@@ -28,6 +28,8 @@ export class GastoService {
         (response.content as Gasto[]).forEach((gasto) => {
           // se mostrara los datos de cada gasto
           console.log(gasto.nombre);
+          console.log(gasto.valor);
+          console.log(gasto.tipo);
         });
       }),
       // se transforma a gastos
