@@ -10,7 +10,7 @@ import { ModalService } from '../../../services/modal.service';
 export class DetalleComponent implements OnInit {
   // Estamos colocando la la instacia de gasto en detalles component
   @Input() gasto: Gasto;
-  titulo: string = 'Detalle del gasto';
+  titulo: string = 'Detalle del Gasto';
 
   constructor(public modalService: ModalService) {}
 

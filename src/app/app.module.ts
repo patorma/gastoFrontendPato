@@ -1,6 +1,6 @@
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,LOCALE_ID  } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,13 @@ import { FormsModule } from "@angular/forms";
 // maneja fechas
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
+import localeEs from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
+import { FormNotaComponent } from './components/notas/form-nota.component';
+import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.component';
+import { Paginador2Component } from './components/paginador2/paginador2.component';
+
+registerLocaleData(localeEs,'es')
 
 @NgModule({
   declarations: [
@@ -32,6 +39,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     FormComponent,
     PaginatorComponent,
     NotasComponent,
+    FormNotaComponent,
+    NoEncotradoComponent,
+    Paginador2Component,
   
   ],
   imports: [
@@ -43,7 +53,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule , 
   ],
-  providers: [GastoService, ModalService],
+  providers: [GastoService, ModalService,{provide: LOCALE_ID, useValue: 'es'}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

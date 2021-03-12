@@ -4,65 +4,139 @@
   </li>
 </ul>
 <div class="card bg-dark text-white my-4">
-    <div class="card-header">{{ titulo }}</div>
-    <div class="card-body">
-        <form #gastoForm="ngForm">
-            <div class="form-group row">
-                <label for="nombre" class="col-form-label col-sm-2">Nombre del gasto</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control"[(ngModel)]="gasto.nombre"  name="nombre" #nombre="ngModel" >
-                    <!-- required minlength="3" -->
-                    <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-                         <!--este div es el principal que pregunta si hay error-->
-                         <div *ngIf="nombre.errors.required">
-                            Nombre del gasto es requerido
-                        </div>
-                        <div *ngIf="nombre.errors.minlength">
-                            Nombre debe tener 3 caracteres como minimo
-                        </div>
-                    </div>
-                </div>
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <form #gastoForm="ngForm">
+      <div class="form-group row">
+        <label for="nombre" class="col-form-label col-sm-2"
+          >Nombre del gasto</label
+        >
+        <div class="col-sm-6">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="gasto.nombre"
+            name="nombre"
+            #nombre="ngModel"
+          />
+          <!-- required minlength="3" -->
+          <div
+            class="alert alert-danger"
+            *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+          >
+            <!--este div es el principal que pregunta si hay error-->
+            <div *ngIf="nombre.errors.required">
+              Nombre del gasto es requerido
             </div>
-            <div class="form-group row">
-                <label for="valor" class="col-form-label col-sm-2">Valor</label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" [(ngModel)]="gasto.valor" name="valor" #valor="ngModel">
-                    <!-- required-->
-                    <div class="alert alert-danger" *ngIf="valor.invalid && (valor.dirty|| valor.touched)">
-                        <!--este div es el principal que pregunta si hay error-->
-                        <div *ngIf="valor.errors.required">
-                             El valor del gasto es requerido 
-                        </div>
-
-                    </div>
-                </div>
+            <div *ngIf="nombre.errors.minlength">
+              Nombre debe tener 3 caracteres como minimo
             </div>
-            <div class="form-group row">
-                <label for="tipo" class="col-form-label col-sm-2">Tipo de gasto</label>
-                <div class="col-sm-6">
-                    <select class="form-control" [(ngModel)]="gasto.tipo" name="tipo" style="width: 500px;"> 
-                        <option>--- seleccionar una región ---</option>
-                        <option   [ngValue]="gasto.tipo">{{gasto.tipo}}</option>
-                    </select>
-                </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="valor" class="col-form-label col-sm-2">Valor</label>
+        <div class="col-sm-6">
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="gasto.valor"
+            name="valor"
+            #valor="ngModel"
+          />
+          <!-- required-->
+          <div
+            class="alert alert-danger"
+            *ngIf="valor.invalid && (valor.dirty || valor.touched)"
+          >
+            <!--este div es el principal que pregunta si hay error-->
+            <div *ngIf="valor.errors.required">
+              El valor del gasto es requerido
             </div>
-            <div class="form-group row">
-                <label for="descripcion" class="col-form-label col-sm-2">Descripcion</label>
-                <div class="col-sm-6">
-                   <textarea class="form-control" [(ngModel)]="gasto.descripcion"  name="descripcion"  cols="30" rows="10" #descripcion="ngModel">
-
-                  </textarea>
-                  <!-- required-->
-                  <div class="alert alert-danger" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
-                       <!--este div es el principal que pregunta si hay error-->
-                       <div *ngIf="descripcion.errors.required">
-                        La descripcion es requerida por favor
-                       </div>
-
-                  </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="tipo" class="col-form-label col-sm-2">Tipo de gasto</label>
+        <div class="col-sm-6">
+          <select
+            class="form-control"
+            [(ngModel)]="gasto.tipo"
+            name="tipo"
+            style="width: 500px"
+          >
+            <option>--- seleccionar una tipo ---</option>
+            <option>GASTO_COMUN</option>
+            <option>OTROS</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="descripcion" class="col-form-label col-sm-2"
+          >Descripcion</label
+        >
+        <div class="col-sm-6">
+          <textarea
+            class="form-control"
+            [(ngModel)]="gasto.descripcion"
+            name="descripcion"
+            cols="30"
+            rows="10"
+            #descripcion="ngModel"
+          >
+          </textarea>
+          <!-- required-->
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              descripcion.invalid && (descripcion.dirty || descripcion.touched)
+            "
+          >
+            <!--este div es el principal que pregunta si hay error-->
+            <div *ngIf="descripcion.errors.required">
+              La descripcion es requerida por favor
             </div>
-                
-            </div>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label for="fecha" class="col-form-label col-sm-2">Fecha</label>
+        <div class="col-sm-6">
+          <input
+            [matDatepicker]="miDatepicker"
+            class="form-control"
+            [(ngModel)]="gasto.fecha"
+            name="fecha"
+            style="display: inline; width: 300px"
+          />
+          <mat-datepicker-toggle [for]="miDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #miDatepicker></mat-datepicker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button
+            class="btn btn-primary"
+            role="button"
+            (click)="create()"
+            *ngIf="!gasto.id; else elseBlock"
+            [disabled]="!gastoForm.form.valid"
+          >
+            Crear
+          </button>
+          <ng-template #elseBlock>
+            <button
+              class="btn btn-primary"
+              role="button"
+              (click)="update()"
+              [disabled]="!gastoForm.form.valid"
+            >
+              Editar
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

@@ -20,7 +20,7 @@
       <li [ngClass]="paginador.last?'disabled page-item': 'page-item'">
         <a class="page-link" [routerLink]="[ '/gastos/page',paginador.totalPages-1]">Última</a>
     </li>
-      <!-- se valida que no sea la ultima pagina con ng-if, se pregunta si la pagina actual es menor al total de aginas -1-->
+      <!-- se valida que no sea la ultima pagina con ng-if, se pregunta si la pagina actual es menor al total de paginas -1-->
       <li class="page-item" *ngIf="paginador.number < paginador.totalPages-1">
         <!-- paginador.number es la pagina actual pero queremos avanzar a la siguiente +1-->
         <a class="page-link" [routerLink]="[ '/gastos/page',paginador.number+1]">&raquo;</a>

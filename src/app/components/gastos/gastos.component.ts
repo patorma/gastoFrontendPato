@@ -48,8 +48,12 @@ export class GastosComponent implements OnInit {
         .subscribe((response) => {
           this.gastos = response.content as Gasto[];
           this.paginador = response;
+         
         });
     });
+
+    
+    
   }
 
   public delete(gasto: Gasto): void {
@@ -87,5 +91,15 @@ export class GastosComponent implements OnInit {
   abrirModal(gasto: Gasto) {
     this.gastoSeleccionado = gasto;
     this.modalService.abrirModal();
+  }
+  getGastoTotal(){
+    let valorTotal: number = 0;
+    if(this.gastos){
+
+      this.gastos.map(gast =>{
+        valorTotal += gast.valor
+      })
+    }
+    return valorTotal
   }
 }
