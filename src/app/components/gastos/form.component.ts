@@ -25,7 +25,7 @@ export class FormComponent implements OnInit {
 
   cargarGasto(): void {
       /*Recibe como argumento los parametros en subscribe */
-      /*en subscribe se ejecyta mostrar gatos de gastos */
+      /*en subscribe se ejecuta mostrar gatos de gastos */
       this.activatedRoute.params.subscribe((params) =>{
         let id = params['id'];
         if(id){

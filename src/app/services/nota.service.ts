@@ -33,6 +33,7 @@ export class NotaService {
              console.log(nota.titulo);
              console.log(nota.descripcion);
              console.log(nota.estado);
+             console.log(nota.fechaCreacion)
           })
       }),
       // se transforma a notas
@@ -42,7 +43,7 @@ export class NotaService {
         (response.content as Nota[]).map((nota) =>{
            //pasa a mayuscula el titulo de la nota
            nota.titulo = nota.titulo.toUpperCase();
-           // se retorna el gasto modificado
+           // se retorna la nota modificado
            return nota;
         });
         return response

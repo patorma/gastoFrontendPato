@@ -1,1 +1,118 @@
-<p>form-nota works!</p>
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">
+      {{ err }}
+    </li>
+  </ul>
+  <div class="card bg-dark text-white my-4">
+    <div class="card-header">{{ tituloNota }}</div>
+    <div class="card-body">
+        <form #notaForm="ngForm">
+            <div class="form-group row">
+                <label for="titulo" class="col-form-label col-sm-2"> Título de la nota</label>
+                <div class="col-sm-6">
+                    <input 
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="nota.titulo"
+                        name="titulo"
+                        #titulo="ngModel"
+                    >
+                    <div 
+                       class="alert alert-danger"
+                       *ngIf="titulo.invalid && (titulo.dirty || titulo.touched)"
+                    >
+                        <!--este div es el principal que pregunta si hay error-->
+                        <div *ngIf="titulo.errors.required">
+                            Título de la nota es requerido
+                        </div>
+                        <div *ngIf="titulo.errors.minlength">
+                            Titulo debe tener 10 caracteres como minimo
+                        </div>
+                        <div *ngIf="titulo.errors.maxlength">
+                            Titulo debe tener 50 caracteres como máximo
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="estado" class="col-form-label col-sm-2">Estado</label>
+                <div class="col-sm-6">
+                    <select 
+                      class="form-control"
+                      [(ngModel)]="nota.estado"
+                      name="estado"
+                      style="width: 440px;"
+                    >
+                    <option>--- selecciona el estado de la nota ---</option>
+                    <option>DESCARTADO</option>
+                    <option>PENDIENTE</option>
+                    <option>REALIZADO</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label for="descripcion" class="col-form-label col-sm-2" >Descripcion</label>
+                <div class="col-sm-6">
+                    <textarea 
+                        class="form-control"
+                        [(ngModel)]="nota.descripcion"
+                        name="descripcion" 
+                        cols="3" 
+                        rows="10"
+                        #descripcion="ngModel"
+                    >
+                    </textarea>
+                    <!-- required-->
+                    <div 
+                        class="alert alert-danger"
+                        *ngIf="
+                        descripcion.invalid && (descripcion.dirty || descripcion.touched)"
+                    >
+                    <!--este div es el principal que pregunta si hay error-->
+                    <div *ngIf="descripcion.errors.required">
+                        La descripcion es requerida por favor
+                    </div>
+                    <div *ngIf="descripcion.errors.minlength">
+                        La descripcion debe tener 30 caracteres como minimo
+                    </div>
+                    <div *ngIf="descripcion.errors.maxlength">
+                        La descripcion debe tener 400 caracteres como máximo
+                    </div>
+
+
+                    </div>
+                </div>
+              
+
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button
+                      class="btn btn-primary"
+                      role="button"
+                      (click)="create()"
+                      *ngIf="!nota.id; else elseBlock"
+                      [disabled]="!notaForm.form.valid"
+                    >
+                      Crear
+                    </button>
+                    <ng-template #elseBlock>
+                        <button
+                           class="btn btn-primary"
+                           role="button"
+                           (click)="update()"
+                           [disabled]="!notaForm.form.valid"
+                        >
+                        Editar
+                        </button>
+                    </ng-template>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+  </div>
