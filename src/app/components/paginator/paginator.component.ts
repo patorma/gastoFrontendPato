@@ -8,6 +8,7 @@ export class PaginatorComponent implements OnInit {
 
   @Input() paginador: any;
 
+
   paginas: number[];
 
   desde: number;

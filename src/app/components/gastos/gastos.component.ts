@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,SimpleChanges } from '@angular/core';
 import { Gasto } from './gasto';
 import { GastoService } from '../../services/gasto.service';
 import { ActivatedRoute } from '@angular/router';
@@ -51,10 +51,12 @@ export class GastosComponent implements OnInit {
          
         });
     });
-
+     
     
     
   }
+
+  
 
   public delete(gasto: Gasto): void {
     const swalWithBootstrapButtons = swal.mixin({
@@ -94,12 +96,15 @@ export class GastosComponent implements OnInit {
   }
   getGastoTotal(){
     let valorTotal: number = 0;
+   
+    
     if(this.gastos){
 
       this.gastos.map(gast =>{
         valorTotal += gast.valor
       })
     }
+    console.log(valorTotal)
     return valorTotal
   }
 }

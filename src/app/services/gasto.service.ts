@@ -19,6 +19,33 @@ export class GastoService {
   //   return this.http.get<Tipo[]>(this.urlEndPoint);
   // }
 
+  // getGastosTotal():  Observable<any>{
+  //   return this.http.get(`${this.urlEndPoint}`).pipe(
+  //     tap((response: any) => {
+  //       // tomamos las respuesta y se la asignamos a la variable gastos
+  //       console.log('GastoService: tap 1');
+  //       (response as Gasto[]).forEach((gasto) => {
+  //         // se mostrara los datos de cada gasto
+  //         console.log(gasto.nombre);
+  //         console.log(gasto.valor);
+  //         console.log(gasto.tipo);
+  //       });
+  //     }),
+  //     map((response: any) => {
+  //       // se usa el metodo map del arreglo gastos
+  //       // se modifica los valores internos o cada item del array
+  //       (response as Gasto[]).map((gasto) => {
+  //         //pasa a mayuscula el nombre del gasto
+  //         gasto.nombre = gasto.nombre.toUpperCase();
+  //         // se retorna el gasto modificado
+  //         return gasto;
+  //       });
+  //       return response;
+  //     })
+
+  //   )
+
+  // }
   getGastos(page: number): Observable<any> {
     /*se hace un cast porque devuelve un observable de gasto*/
     return this.http.get(`${this.urlEndPoint}/page/${page}`).pipe(

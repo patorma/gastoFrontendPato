@@ -31,6 +31,9 @@
             <div *ngIf="nombre.errors.minlength">
               Nombre debe tener 3 caracteres como minimo
             </div>
+            <div *ngIf="nombre.errors.maxlength">
+              Nombre debe tener 50 caracteres como máximo
+            </div>
           </div>
         </div>
       </div>
@@ -96,6 +99,12 @@
             <div *ngIf="descripcion.errors.required">
               La descripcion es requerida por favor
             </div>
+            <div *ngIf="descripcion.errors.minlength">
+              La descripcion debe tener 30 caracteres como minimo
+          </div>
+          <div *ngIf="descripcion.errors.maxlength">
+            La descripcion debe tener 400 caracteres como máximo
+        </div>
           </div>
         </div>
       </div>
