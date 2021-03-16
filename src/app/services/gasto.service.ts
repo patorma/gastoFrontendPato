@@ -46,6 +46,21 @@ export class GastoService {
   //   )
 
   // }
+
+  getTotal(): Observable<any>{
+    return this.http.get<any>(this.urlEndPoint + "/valor").pipe(
+      (result) => result
+      
+     
+    )
+    
+  }
+
+  getCantidad():  Observable<any>{
+    return this.http.get<any>(this.urlEndPoint +"/cantidad" ).pipe(
+      (result) => result
+    )
+  }
   getGastos(page: number): Observable<any> {
     /*se hace un cast porque devuelve un observable de gasto*/
     return this.http.get(`${this.urlEndPoint}/page/${page}`).pipe(

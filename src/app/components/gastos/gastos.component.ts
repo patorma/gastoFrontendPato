@@ -15,6 +15,8 @@ export class GastosComponent implements OnInit {
   gastos: Gasto[];
   paginador: any;
   gastoSeleccionado: Gasto;
+  valor: Gasto;
+  cantidad: any;
 
   constructor(
     private gastoService: GastoService,
@@ -39,18 +41,42 @@ export class GastosComponent implements OnInit {
         .getGastos(page)
         .pipe(
           tap((response) => {
+            let valorTotal: number = 0;
             console.log('GastosComponent: tap 3');
             (response.content as Gasto[]).forEach((gasto) => {
+              console.log('aca inicia la prueba')
               console.log(gasto.nombre);
+              console.log(gasto.valor);
+              console.log('hola aca probando')
+
             });
           }) //response.content lista de objeto gastos y se asigna al atributo gasto
         )
         .subscribe((response) => {
           this.gastos = response.content as Gasto[];
           this.paginador = response;
+          
          
-        });
-    });
+        }
+      
+        )
+
+    }),
+    this.gastoService.getTotal().subscribe((result) =>
+    {
+      this.valor = result
+      console.log('aca va el valor total')
+      console.log(this.valor)
+    }),
+
+    this.gastoService.getCantidad().subscribe((result) =>{
+      this.cantidad = result
+    })
+
+   
+   
+    
+
      
     
     
