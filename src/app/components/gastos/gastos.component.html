@@ -61,6 +61,40 @@
     </div>
     
 </div>
+
+<div class="container">
+    <form #filtroForm="ngForm">
+       <div class="form-group row">
+           <label for="mes" class="col-form-label col-sm-2">Mes</label>
+           <div class="col-sm-6">
+               <input type="number" pattern="[0-9]"class="form-control" [(ngModel)]="mes" name="mes">
+               
+           </div>
+       </div>
+       <div class="form-group row">
+           <label for="ano" class="col-form-label col-sm-2">Año</label>
+           <div class="col-sm-6">
+               <input type="number"pattern="[0-9]" class="form-control" [(ngModel)]="ano" name="ano">
+
+           </div>
+       </div>
+       <div class="form-group row">
+           <button
+           class="btn btn-primary"
+           role="button"
+           (click)="filtro()"
+           >
+               Buscar por fecha
+           </button>
+       </div>
+    </form>
+</div>
+
+
+<!-- <app-filtro [valor]="valor2" ></app-filtro> -->
+
+
+
  <!--Tarjeta lateral que mostrara el valor total acumulados de lso gastos y el número de clientes que tiene la aplicacion-->
  <div class="col-md-3 d">
     <div class="card text-center bg-danger text-white mb-3">

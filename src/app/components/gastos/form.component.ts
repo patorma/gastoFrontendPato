@@ -37,7 +37,9 @@ export class FormComponent implements OnInit {
   }
 
   public create(): void{
+    if(this.gasto.valor){
     console.log(this.gasto);
+
     this.gastoService.create(this.gasto).subscribe(
       (gasto) =>{
         this.router.navigate(['/gastos']);
@@ -58,6 +60,16 @@ export class FormComponent implements OnInit {
         console.error(err.error.errors);
       }
     )
+
+    }else  {
+      swal.fire(
+        'error',
+        ` Debe ingresar datos y solo valores númericos en valor`,
+        'warning'
+      );
+
+    }
+      
 
   }
 

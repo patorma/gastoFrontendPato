@@ -59,8 +59,33 @@ export class GastoService {
   getCantidad():  Observable<any>{
     return this.http.get<any>(this.urlEndPoint +"/cantidad" ).pipe(
       (result) => result
+     
     )
   }
+
+  getFiltro(mes: number,ano: number):  Observable<any>{
+    if(isNaN(mes) || isNaN(ano)){
+      swal.fire(
+        'Error',
+        `Ingresar datos`,
+        'warning'
+      );
+    }
+    return this.http.get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`).pipe(
+      (result) => result,
+      catchError((e) => {
+        // el estado 400 viene de la validacion, un bad request
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        console.error(e.error.mensaje);
+        swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    )
+
+  }
+
   getGastos(page: number): Observable<any> {
     /*se hace un cast porque devuelve un observable de gasto*/
     return this.http.get(`${this.urlEndPoint}/page/${page}`).pipe(
