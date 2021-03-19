@@ -5,6 +5,7 @@ import { FormComponent } from './components/gastos/form.component';
 import { NotasComponent } from './components/notas/notas.component';
 import { FormNotaComponent } from './components/notas/form-nota.component';
 import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.component';
+import { FiltroComponent } from './components/filtro/filtro.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/gastos', pathMatch: 'full' },
@@ -16,7 +17,9 @@ const routes: Routes = [
   {path: 'notas/page/:page', component: NotasComponent},
   {path:'notas/form', component: FormNotaComponent},
   {path: 'notas/form/:id', component: FormNotaComponent},
+  {path: 'gastos/busquedaGasto',component: FiltroComponent},
   {path: '**', component: NoEncotradoComponent}
+
 ];
 
 @NgModule({

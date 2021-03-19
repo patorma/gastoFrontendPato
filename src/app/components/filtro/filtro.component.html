@@ -1,1 +1,59 @@
-<p>{{valor}}</p>
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">
+      {{ err }}
+    </li>
+  </ul>
+<div class="container pa border">
+    <div class="card  bg-dark border-primary  text-white my-4">
+        <div class="card-header">Búsqueda de Gastos</div>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Buscar por fecha y año el total de gastos</h4>
+        <form #filtroForm="ngForm">
+            <div class="form-group row">
+                <label for="mes" class="col-form-label col-sm-2">Mes</label>
+                <div class="col-sm-6">
+                    <!-- <input type="number" pattern="[0-9]"class="form-control" [(ngModel)]="mes" name="mes">
+                     -->
+                     <select
+                        class="form-control"
+                        [(ngModel)]="mes"
+                        name="mes"
+                        style="width: 520px;"
+                     >
+                     <option>--- selecciona el mes---</option>
+                     <option value="1">ENERO</option>
+                     <option value="2">FEBRERO</option>
+                     <option value="3">MARZO</option>
+                     <option value="4">ABRIL</option>
+                     <option value="5">MAYO</option>
+                     <option value="6">JUNIO</option>
+                     <option value="7">JULIO</option>
+                     <option value="8">AGOSTO</option>
+                     <option value="9">SEPTIEMBRE</option>
+                     <option value="10">OCTUBRE</option>
+                     <option value="11">NOVIEMBRE</option>
+                     <option value="12">DICIEMBRE</option>
+
+                     </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="ano" class="col-form-label col-sm-2">Año</label>
+                <div class="col-sm-6">
+                    <input type="number"pattern="[0-9]" class="form-control" [(ngModel)]="ano" name="ano">
+     
+                </div>
+            </div>
+            <div class="form-group row">
+                <button
+                class="btn btn-primary"
+                role="button"
+                (click)="filtro()"
+                >
+                    Buscar por fecha
+                </button>
+            </div>
+         </form>
+    </div>
+</div>
