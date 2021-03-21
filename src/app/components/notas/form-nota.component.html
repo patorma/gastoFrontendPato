@@ -43,11 +43,11 @@
                       [(ngModel)]="nota.estado"
                       name="estado"
                       style="width: 440px;"
+                      #estado="ngModel"
                     >
                     <option>--- selecciona el estado de la nota ---</option>
-                    <option>DESCARTADO</option>
-                    <option>PENDIENTE</option>
-                    <option>REALIZADO</option>
+                    <option value="{{dato}}" *ngFor="let dato of datos; let i = index">
+                        {{dato}}</option>
                 </select>
                 </div>
             </div>

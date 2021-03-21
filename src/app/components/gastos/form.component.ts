@@ -14,9 +14,12 @@ export class FormComponent implements OnInit {
   public gasto: Gasto = new Gasto();
   public titulo: string = "Crear gasto"; 
   public errores: string[];
+  datos:string[];
 
   constructor(private gastoService: GastoService,private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute) {
+      this.datos =['GASTO_COMUN','OTROS']
+     }
 
   ngOnInit(): void {
 

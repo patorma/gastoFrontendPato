@@ -27,6 +27,7 @@ import { FormNotaComponent } from './components/notas/form-nota.component';
 import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.component';
 import { Paginador2Component } from './components/paginador2/paginador2.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
+import { MostrarComponent } from './components/mostrar/mostrar.component';
 
 registerLocaleData(localeEs,'es')
 
@@ -44,6 +45,7 @@ registerLocaleData(localeEs,'es')
     NoEncotradoComponent,
     Paginador2Component,
     FiltroComponent,
+    MostrarComponent,
   
   ],
   imports: [

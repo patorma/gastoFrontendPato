@@ -14,9 +14,12 @@ export class FormNotaComponent implements OnInit {
   public nota: Nota = new Nota();
   public tituloNota: string = "Crear nota";
   public errores: string[]; 
+  datos:string[];
 
    // ActivatedRoute muestra la informacion que contiene la ruta hasta con los datos
-  constructor(private notaServicio: NotaService, private router:Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private notaServicio: NotaService, private router:Router, private activatedRoute: ActivatedRoute) { 
+    this.datos = ['DESCARTADO','PENDIENTE','REALIZADO']
+  }
 
   ngOnInit(): void {
      this.cargarNota()

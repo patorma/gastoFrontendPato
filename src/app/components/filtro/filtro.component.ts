@@ -12,14 +12,19 @@ export class FiltroComponent implements OnInit {
 
   mes: number;
   ano: number;
+  datos:string[];
   public errores: string[];
   valor2: any;
+  verSeleccion: string = '';
+  opcionSeleccionado: string  = '0';
 
   // @Input() valor: number;
   // @Input() ano:number;
   // valor:any;
 
-  constructor(private gastoService: GastoService, private router: Router) { }
+  constructor(private gastoService: GastoService, private router: Router) {
+    this.datos = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
+   }
 
   ngOnInit(): void {
 
@@ -31,6 +36,18 @@ export class FiltroComponent implements OnInit {
     //   }
     // )
   }
+
+  // public gol(e): void{
+  //   let index = e.target.selectedIndex;
+  //   console.log(e.target.options[index].text);
+  // }
+
+  // public capturar():void {
+
+  //   this.verSeleccion = this.datos;
+  //   console.log(this.datos)
+
+  // }
  
    public filtro(): void {
 
@@ -53,13 +70,20 @@ export class FiltroComponent implements OnInit {
       (result) =>{
         this.router.navigate(['/gastos']);
 
+
+        
+
         
         this.valor2 = result
         console.log('aca va el valor total')
          console.log(this.valor2)
+        
+         
+        
+         
          swal.fire(
           'Busqueda exitosa',
-          ` El total del mes ${this.mes} y del año ${this.ano} es:  ${this.valor2}`,
+          ` El total del mes ingresado del año ${this.ano} es:  ${this.valor2}`,
           'success'
         );
       },
@@ -76,8 +100,8 @@ export class FiltroComponent implements OnInit {
     
   }else  {
     swal.fire(
-      'error',
-      ` ingrese solo valores númericos`,
+      'Ocurrio un error',
+      ` Debe ingresar valores`,
       'warning'
     );
     console.log('error')

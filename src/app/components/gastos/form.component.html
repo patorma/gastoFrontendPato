@@ -69,8 +69,10 @@
             style="width: 440px"
           >
             <option>--- seleccionar una tipo ---</option>
-            <option>GASTO_COMUN</option>
-            <option>OTROS</option>
+            <option value="{{dato}}" *ngFor="let dato of datos; let i = index">
+              {{dato}}
+            </option>
+            
           </select>
         </div>
       </div>
