@@ -59,6 +59,11 @@ export class FormNotaComponent implements OnInit {
        this.errores = err.error.errors as string[]
        console.error("Codigo del error desde el backend: " + err.status);
        console.error(err.error.errors);
+       swal.fire(
+         'Error',
+         'Ya existe ese titulo de nota en el sistema',
+         'error'
+       )
      }
     )
   }

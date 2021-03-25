@@ -68,7 +68,7 @@ export class FiltroComponent implements OnInit {
    
     this.gastoService.getFiltro(this.mes,this.ano).subscribe(
       (result) =>{
-        this.router.navigate(['/gastos']);
+        // this.router.navigate(['/gastos']);
 
 
         
@@ -95,6 +95,11 @@ export class FiltroComponent implements OnInit {
        this.errores = err.error.errors as string[];
        console.error("Codigo del error desde el backend: " + err.status);
        console.error(err.error.errors);
+       swal.fire(
+         'Ocurrio un error al insertar los datos',
+         'no existe gasto para ese mes y año ingresado',
+         'error'
+       )
      }
     )
     

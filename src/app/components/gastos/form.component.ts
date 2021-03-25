@@ -61,6 +61,11 @@ export class FormComponent implements OnInit {
         this.errores = err.error.errors as string[]
         console.error("Codigo del error desde el backend: " + err.status);
         console.error(err.error.errors);
+        swal.fire(
+          'Error',
+          'Ya existe ese nombre de gasto en el sistema',
+          'error'
+        )
       }
     )
 
