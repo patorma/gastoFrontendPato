@@ -1,0 +1,41 @@
+/* .abs-center {
+   
+} */
+
+
+/* .c {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+} */
+
+input {
+    width: auto;
+    margin: auto;
+    padding: auto;
+    /* margin: 400px;
+    margin-top: 40px;
+    margin-bottom: 40px; */
+}
+
+form {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 
+.form {
+    width: 600px;
+}
+
+.h {
+    width: 1113px;
+} */
+
+
+/* .h {
+    width: auto;
+} */

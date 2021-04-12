@@ -28,6 +28,7 @@ import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.com
 import { Paginador2Component } from './components/paginador2/paginador2.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { MostrarComponent } from './components/mostrar/mostrar.component';
+import { LoginComponent } from './components/usuarios/login.component';
 
 registerLocaleData(localeEs,'es')
 
@@ -46,6 +47,7 @@ registerLocaleData(localeEs,'es')
     Paginador2Component,
     FiltroComponent,
     MostrarComponent,
+    LoginComponent,
   
   ],
   imports: [

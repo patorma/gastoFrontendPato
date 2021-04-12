@@ -6,18 +6,20 @@ import { NotasComponent } from './components/notas/notas.component';
 import { FormNotaComponent } from './components/notas/form-nota.component';
 import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
+import { LoginComponent } from './components/usuarios/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/gastos', pathMatch: 'full' },
   { path: 'gastos', component: GastosComponent },
   { path: 'gastos/page/:page', component: GastosComponent },
-  {path: 'gastos/form',component: FormComponent},
+  {path: 'gastos/form', component: FormComponent},
   {path: 'gastos/form/:id', component: FormComponent},
-  {path: 'notas', component:NotasComponent},
+  {path: 'notas', component: NotasComponent},
   {path: 'notas/page/:page', component: NotasComponent},
-  {path:'notas/form', component: FormNotaComponent},
+  {path: 'notas/form', component: FormNotaComponent},
   {path: 'notas/form/:id', component: FormNotaComponent},
-  {path: 'gastos/busquedaGasto',component: FiltroComponent},
+  {path: 'gastos/busquedaGasto', component: FiltroComponent},
+  {path: 'login', component: LoginComponent},
   {path: '**', component: NoEncotradoComponent}
 
 ];
