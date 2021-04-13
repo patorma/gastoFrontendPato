@@ -15,6 +15,15 @@ export class GastoService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  private isNoAutorizado(e): boolean {
+      if (e.status == 401 || e.status == 403){
+          this.router.navigate(['/login']);
+          return true;
+      } 
+      return false;
+    
+  }
+
   // getTipo(): Observable<Tipo[]> {
   //   return this.http.get<Tipo[]>(this.urlEndPoint);
   // }
@@ -74,6 +83,9 @@ export class GastoService {
     return this.http.get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`).pipe(
       (result) => result,
       catchError((e) => {
+        if(this.isNoAutorizado(e)){
+          return throwError(e);
+        }
         // el estado 400 viene de la validacion, un bad request
         if (e.status == 400) {
           return throwError(e);
@@ -126,7 +138,10 @@ export class GastoService {
       .post(this.urlEndPoint, gasto, { headers: this.httpHeaders })
       .pipe(
         map((response: any) => response.gasto as Gasto),
-        catchError((e) => {
+        catchError(e => {
+          if(this.isNoAutorizado(e)){
+            return throwError(e);
+          }
           // el estado 400 viene de la validacion, un bad request
           if (e.status == 400) {
             return throwError(e);
@@ -140,6 +155,10 @@ export class GastoService {
   getGasto(id): Observable<Gasto> {
     return this.http.get<Gasto>(`${this.urlEndPoint}/${id}`).pipe(
       catchError((e) => {
+
+        if (this.isNoAutorizado(e)){
+          return throwError(e);
+        }
         /*capturamos el error y redirigimos a gastos*/
         this.router.navigate(['/gastos']);
         console.error(e.error.mensaje);
@@ -156,6 +175,10 @@ export class GastoService {
       })
       .pipe(
         catchError((e) => {
+          if (this.isNoAutorizado(e)){
+            return throwError(e);
+          }
+
           if (e.status == 400) {
             return throwError(e);
           }
@@ -173,6 +196,10 @@ export class GastoService {
       })
       .pipe(
         catchError((e) => {
+
+          if (this.isNoAutorizado(e)){
+            return throwError(e);
+          }
           console.error(e.error.mensaje);
           swal.fire(e.error.mensaje, e.error.error, 'error');
           return throwError(e);

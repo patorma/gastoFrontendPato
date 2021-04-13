@@ -20,6 +20,14 @@ export class NotaService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  private isNoAutorizado(e): boolean{
+    if(e.status === 401 || e.status === 403){
+        this.router.navigate(['/login']);
+        return true;
+    }
+    return false;
+}
+
   getNotas(page: number): Observable<any>{
     /*se hace un cast porque devuelve un observable de notas*/
     /** con pipe se recupera cada uno de los elementos de la coleccion
@@ -63,8 +71,11 @@ export class NotaService {
     return this.http
     .post(this.urlEndPoint,nota,{ headers: this.httpHeaders })
     .pipe(
-      map((response: any) =>response.nota as Nota),
-      catchError((e) =>{
+      map((response: any) => response.nota as Nota),
+      catchError((e) => {
+        if (this.isNoAutorizado(e)){
+          return throwError(e);
+        }
          // el estado 400 viene de la validacion, un bad request
          if (e.status == 400) {
           return throwError(e);
@@ -79,6 +90,9 @@ export class NotaService {
   getNota(id): Observable<Nota>{
     return this.http.get<Nota>(`${this.urlEndPoint}/${id}`).pipe(
       catchError((e)=>{
+        if (this.isNoAutorizado(e)){
+          return throwError(e);
+        }
         /*capturamos el error y redirigimos a notas*/
         this.router.navigate(['/notas']);
         console.error(e.error.mensaje);
@@ -94,7 +108,11 @@ export class NotaService {
       headers: this.httpHeaders
     })
     .pipe(
-      catchError((e)=>{
+      catchError((e) => {
+
+        if(this.isNoAutorizado(e)){
+          return throwError(e);
+        }
         if (e.status == 400) {
           return throwError(e);
         }
@@ -110,7 +128,10 @@ export class NotaService {
       headers: this.httpHeaders
     })
     .pipe(
-      catchError((e) =>{
+      catchError((e) => {
+        if (this.isNoAutorizado(e)){
+          return throwError(e);
+        }
         console.error(e.error.mensaje);
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
