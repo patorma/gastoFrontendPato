@@ -17,12 +17,18 @@ export class AuthService {
     //en js se hace con btoa()
     const credenciales = btoa('angularapp' + ':' + '12345');
 
-    const httpHeaders = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded','Authorization': 'Basic' + credenciales});
+    const httpHeaders = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded','Authorization': 'Basic ' + credenciales});
     let params = new URLSearchParams();
+    //params lo que hace es detras de escena es generar los parametros
+    //en una URLencoded toma cadaparametro y lo va anexar a la ruta url
+    //ejemplo: grant_type=password&username=patricio&password=12345
+    //se agrega .toString() para pasarlo a  string
     params.set('grant_type','password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
-    
-     return this.http.post<any>(urlEndPoint,params,{headers: httpHeaders});
+
+    console.log(params.toString());
+
+     return this.http.post<any>(urlEndPoint,params.toString(),{headers: httpHeaders});
   }
 }
