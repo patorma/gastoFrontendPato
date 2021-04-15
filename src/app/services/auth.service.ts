@@ -83,4 +83,13 @@ export class AuthService {
      return null;
   }
 
+  isAuthenticated(): boolean {
+    // obtenemos el metodo token desde el getter
+    let payload = this.obtenerDatosToken(this.token);
+    if(payload !=null && payload.user_name && payload.user_name.length > 0 ){
+      return true; // esta autenticado
+    }
+    return false;
+  }
+
 }
