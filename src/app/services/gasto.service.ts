@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Gasto } from '../components/gastos/gasto';
 import swal from 'sweetalert2';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +14,28 @@ export class GastoService {
   private urlEndPoint: string = 'http://localhost:8080/api/gastos';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  private agregarAuthorizationHeader() {
+    // obtenemos el token mediante authService
+    let token = this.authService.token;
+    if (token != null) {
+      return this.httpHeaders.append('Authorization', 'Bearer ' + token);
+    }
+
+    return this.httpHeaders;
+  }
 
   private isNoAutorizado(e): boolean {
-      if (e.status == 401 || e.status == 403){
-          this.router.navigate(['/login']);
-          return true;
-      } 
-      return false;
-    
+    if (e.status === 401 || e.status === 403) {
+      this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
   }
 
   // getTipo(): Observable<Tipo[]> {
@@ -56,46 +70,41 @@ export class GastoService {
 
   // }
 
-  getTotal(): Observable<any>{
-    return this.http.get<any>(this.urlEndPoint + "/valor").pipe(
-      (result) => result
-      
-     
-    )
-    
+  getTotal(): Observable<any> {
+    return this.http
+      .get<any>(this.urlEndPoint + '/valor')
+      .pipe((result) => result);
   }
 
-  getCantidad():  Observable<any>{
-    return this.http.get<any>(this.urlEndPoint +"/cantidad" ).pipe(
-      (result) => result
-     
-    )
+  getCantidad(): Observable<any> {
+    return this.http
+      .get<any>(this.urlEndPoint + '/cantidad')
+      .pipe((result) => result);
   }
 
-  getFiltro(mes: number,ano: number):  Observable<any>{
-    if(isNaN(mes) || isNaN(ano)){
-      swal.fire(
-        'Error',
-        `Ingresar datos`,
-        'warning'
-      );
+  getFiltro(mes: number, ano: number): Observable<any> {
+    if (isNaN(mes) || isNaN(ano)) {
+      swal.fire('Error', `Ingresar datos`, 'warning');
     }
-    return this.http.get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`).pipe(
-      (result) => result,
-      catchError((e) => {
-        if(this.isNoAutorizado(e)){
-          return throwError(e);
-        }
-        // el estado 400 viene de la validacion, un bad request
-        if (e.status == 400) {
-          return throwError(e);
-        }
-        console.error(e.error.mensaje);
-        swal.fire(e.error.mensaje, e.error.error, 'error');
-        return throwError(e);
+    return this.http
+      .get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`, {
+        headers: this.agregarAuthorizationHeader(),
       })
-    )
-
+      .pipe(
+        (result) => result,
+        catchError((e) => {
+          if (this.isNoAutorizado(e)) {
+            return throwError(e);
+          }
+          // el estado 400 viene de la validacion, un bad request
+          if (e.status === 400) {
+            return throwError(e);
+          }
+          console.error(e.error.mensaje);
+          swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(e);
+        })
+      );
   }
 
   getGastos(page: number): Observable<any> {
@@ -135,15 +144,17 @@ export class GastoService {
 
   create(gasto: Gasto): Observable<Gasto> {
     return this.http
-      .post(this.urlEndPoint, gasto, { headers: this.httpHeaders })
+      .post(this.urlEndPoint, gasto, {
+        headers: this.agregarAuthorizationHeader(),
+      })
       .pipe(
         map((response: any) => response.gasto as Gasto),
-        catchError(e => {
-          if(this.isNoAutorizado(e)){
+        catchError((e) => {
+          if (this.isNoAutorizado(e)) {
             return throwError(e);
           }
           // el estado 400 viene de la validacion, un bad request
-          if (e.status == 400) {
+          if (e.status === 400) {
             return throwError(e);
           }
           console.error(e.error.mensaje);
@@ -153,33 +164,36 @@ export class GastoService {
       );
   }
   getGasto(id): Observable<Gasto> {
-    return this.http.get<Gasto>(`${this.urlEndPoint}/${id}`).pipe(
-      catchError((e) => {
-
-        if (this.isNoAutorizado(e)){
-          return throwError(e);
-        }
-        /*capturamos el error y redirigimos a gastos*/
-        this.router.navigate(['/gastos']);
-        console.error(e.error.mensaje);
-        swal.fire('Error al editar', e.error.mensaje, 'error');
-        return throwError(e);
+    return this.http
+      .get<Gasto>(`${this.urlEndPoint}/${id}`, {
+        headers: this.agregarAuthorizationHeader(),
       })
-    );
+      .pipe(
+        catchError((e) => {
+          if (this.isNoAutorizado(e)) {
+            return throwError(e);
+          }
+          /*capturamos el error y redirigimos a gastos*/
+          this.router.navigate(['/gastos']);
+          console.error(e.error.mensaje);
+          swal.fire('Error al editar', e.error.mensaje, 'error');
+          return throwError(e);
+        })
+      );
   }
 
   update(gasto: Gasto): Observable<any> {
     return this.http
       .put<any>(`${this.urlEndPoint}/${gasto.id}`, gasto, {
-        headers: this.httpHeaders,
+        headers: this.agregarAuthorizationHeader(),
       })
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)){
+          if (this.isNoAutorizado(e)) {
             return throwError(e);
           }
 
-          if (e.status == 400) {
+          if (e.status === 400) {
             return throwError(e);
           }
           console.error(e.error.mensaje);
@@ -192,12 +206,11 @@ export class GastoService {
   delete(id: number): Observable<Gasto> {
     return this.http
       .delete<Gasto>(`${this.urlEndPoint}/${id}`, {
-        headers: this.httpHeaders,
+        headers: this.agregarAuthorizationHeader(),
       })
       .pipe(
         catchError((e) => {
-
-          if (this.isNoAutorizado(e)){
+          if (this.isNoAutorizado(e)) {
             return throwError(e);
           }
           console.error(e.error.mensaje);

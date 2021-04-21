@@ -68,7 +68,7 @@ export class FiltroComponent implements OnInit {
    
     this.gastoService.getFiltro(this.mes,this.ano).subscribe(
       (result) =>{
-        // this.router.navigate(['/gastos']);
+        this.router.navigate(['/gastos']);
 
 
         
