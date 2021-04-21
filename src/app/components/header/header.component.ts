@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  title: string = 'App Angular';
+  title: string = 'Gastos';
   constructor(public authService: AuthService, private router: Router) {}
 
   logout(): void {

@@ -3,63 +3,63 @@
     <div class="card-body text-primary">
         <h4 class="card-title">Listado de notas</h4>
         <div class="my-2 text-left">
-            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/notas/form']"  >
+            <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" type="button" [routerLink]="['/notas/form']">
                 Crear Nota
             </button>
         </div>
-         <div  *ngIf="notas?.length == 0" class="alert alert-info">
+        <div *ngIf="notas?.length == 0" class="alert alert-info">
             No hay registros en la base de datos!
-         </div>
-         <div class="table-responsive">
-             <table class="table table-bordered table-striped table-sm table-md" *ngIf="notas?.length > 0">
-                 <thead>
-                     <tr>
-                    <th>#</th>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Fecha de Creación</th>
-                    <th>
-                        Editar
-                    </th>
-                    <th>
-                        Eliminar
-                    </th>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-sm table-md" *ngIf="notas?.length > 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Fecha de Creación</th>
+                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            Editar
+                        </th>
+                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            Eliminar
+                        </th>
                     </tr>
-                 </thead>
-                 <tbody>
-                     <tr *ngFor="let nota of notas; let i = index">
-                         <td>
-                              {{nota.id}}
-                         </td>
-                         <td>
-                             {{nota.titulo}}
-                         </td>
-                         <td>
-                             {{nota.descripcion}}
-                         </td>
-                         <td>
-                             {{nota.estado}}
-                         </td>
-                         <td>
-                             {{nota.fechaCreacion | date: "EEEE dd, MMMM yyyy"}}
-                         </td>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let nota of notas; let i = index">
+                        <td>
+                            {{nota.id}}
+                        </td>
+                        <td>
+                            {{nota.titulo}}
+                        </td>
+                        <td>
+                            {{nota.descripcion}}
+                        </td>
+                        <td>
+                            {{nota.estado}}
+                        </td>
+                        <td>
+                            {{nota.fechaCreacion | date: "EEEE dd, MMMM yyyy"}}
+                        </td>
 
-                         <td>
-                             <button type="button" name="editar" [routerLink]="['/notas/form',nota.id]" class="btn btn-primary" >
+                        <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            <button type="button" name="editar" [routerLink]="['/notas/form',nota.id]" class="btn btn-primary">
                                 editar
                              </button>
-                         </td>
-                         <td>
-                             <button type="button" name="eliminar" class="btn btn-danger" (click)="delete(nota)">
+                        </td>
+                        <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+                            <button type="button" name="eliminar" class="btn btn-danger" (click)="delete(nota)">
                                 eliminar
                              </button>
-                         </td>
-                     </tr>
-                 </tbody>
-             </table>
-         </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-         <app-paginador2 *ngIf="paginador" [paginador]="paginador"></app-paginador2>
+        <app-paginador2 *ngIf="paginador" [paginador]="paginador"></app-paginador2>
     </div>
 </div>

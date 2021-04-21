@@ -5,6 +5,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-gastos',
@@ -23,6 +24,7 @@ export class GastosComponent implements OnInit {
     private gastoService: GastoService,
     private activatedRoute: ActivatedRoute,
     private modalService: ModalService,
+    public authService: AuthService,
     private router: Router
   ) {}
 

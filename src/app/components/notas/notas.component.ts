@@ -4,6 +4,7 @@ import { NotaService } from '../../services/nota.service';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-notas',
@@ -16,7 +17,8 @@ export class NotasComponent implements OnInit {
 
   constructor(
     private notaServicio: NotaService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

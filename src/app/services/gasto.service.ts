@@ -31,8 +31,14 @@ export class GastoService {
   }
 
   private isNoAutorizado(e): boolean {
-    if (e.status === 401 || e.status === 403) {
+    if (e.status === 401) {
       this.router.navigate(['/login']);
+      return true;
+    }
+    // 403 cuando no tiene el rol o permiso correspondiente
+    if (e.status === 403) {
+      swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`,'warning');
+      this.router.navigate(['/gastos']);
       return true;
     }
     return false;

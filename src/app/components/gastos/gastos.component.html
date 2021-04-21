@@ -5,9 +5,9 @@
 <div class="card border-primary tarjeta mb-3 panel">
     <div class="card-header">Gastos</div>
     <div class="card-body text-primary">
-        <h4 class="card-title">Listado de gastos</h4>
+        <h4 class="card-title">Listado de gastos </h4>
         <div class="my-2 text-left">
-            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/gastos/form']">
+            <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" type="button" [routerLink]="['/gastos/form']">
         Crear Gasto
       </button>
         </div>
@@ -18,22 +18,22 @@
             <table class="table table-bordered table-striped table-sm table-md" *ngIf="gastos?.length > 0">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th *ngIf="authService.hasRole('ROLE_USER')">#</th>
                         <th>Nombre gasto</th>
                         <th>Valor</th>
                         <th>Tipo</th>
                         <th>Fecha</th>
-                        <th>
+                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">
                             Editar
                         </th>
-                        <th>
+                        <th *ngIf="authService.hasRole('ROLE_ADMIN')">
                             Eliminar
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let gasto of gastos">
-                        <td>
+                        <td *ngIf="authService.hasRole('ROLE_USER')">
                             <button (click)="abrirModal(gasto)" class="btn btn-rounded btn-primary" type="button" style="width: 84px; cursor:pointer;">
                   Detalle
                 </button>
@@ -42,12 +42,12 @@
                         <td>{{ gasto.valor | currency:'CLP':'symbol-narrow' }}</td>
                         <td>{{ gasto.tipo}}</td>
                         <td>{{ gasto.fecha | date: "EEEE dd, MMMM yyyy" }}</td>
-                        <td>
+                        <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                             <button type="button" name="editar" [routerLink]="['/gastos/form', gasto.id]" class="btn btn-primary">
                   editar
                 </button>
                         </td>
-                        <td>
+                        <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                             <button type="button" name="eliminar" class="btn btn-danger" (click)="delete(gasto)">
                   eliminar
                 </button>
