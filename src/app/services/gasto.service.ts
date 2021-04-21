@@ -32,6 +32,11 @@ export class GastoService {
 
   private isNoAutorizado(e): boolean {
     if (e.status === 401) {
+      // cuando el token expira y es invalido en el backend
+      // se cierra sesion en angular
+      if(this.authService.isAuthenticated()){
+        this.authService.logout();
+      }
       this.router.navigate(['/login']);
       return true;
     }
