@@ -8,21 +8,46 @@ import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.com
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { LoginComponent } from './components/usuarios/login.component';
 import { AuthGuard } from './components/usuarios/guards/auth.guard';
+import { RoleGuard } from './components/usuarios/guards/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/gastos', pathMatch: 'full' },
-  { path: 'gastos', component: GastosComponent },
+  { path: 'gastos', component: GastosComponent},
   { path: 'gastos/page/:page', component: GastosComponent },
-  {path: 'gastos/form', component: FormComponent, canActivate: [AuthGuard]},
-  {path: 'gastos/form/:id', component: FormComponent, canActivate: [AuthGuard]},
-  {path: 'notas', component: NotasComponent},
-  {path: 'notas/page/:page', component: NotasComponent},
-  {path: 'notas/form', component: FormNotaComponent, canActivate: [AuthGuard]},
-  {path: 'notas/form/:id', component: FormNotaComponent, canActivate: [AuthGuard]},
-  {path: 'gastos/busquedaGasto', component: FiltroComponent, canActivate: [AuthGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: '**', component: NoEncotradoComponent}
-
+  {
+    path: 'gastos/form',
+    component: FormComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ROLE_ADMIN' },
+  },
+  {
+    path: 'gastos/form/:id',
+    component: FormComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ROLE_ADMIN' },
+  },
+  { path: 'notas', component: NotasComponent },
+  { path: 'notas/page/:page', component: NotasComponent },
+  {
+    path: 'notas/form',
+    component: FormNotaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ROLE_ADMIN' },
+  },
+  {
+    path: 'notas/form/:id',
+    component: FormNotaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ROLE_ADMIN' },
+  },
+  {
+    path: 'gastos/busquedaGasto',
+    component: FiltroComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'ROLE_USER' }
+  },
+  { path: 'login', component: LoginComponent },
+  { path: '**', component: NoEncotradoComponent },
 ];
 
 @NgModule({

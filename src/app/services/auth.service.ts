@@ -85,14 +85,15 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     // obtenemos el metodo token desde el getter
+     // esta autenticado
     let payload = this.obtenerDatosToken(this.token);
-    if(payload !=null && payload.user_name && payload.user_name.length > 0 ){
-      return true; // esta autenticado
+    if(payload != null && payload.user_name && payload.user_name.length > 0 ){
+      return true;
     }
     return false;
   }
 
-  hasRole(role: string):boolean{
+  hasRole(role: string): boolean{
     if(this.usuario.roles.includes(role)){
       return true;
     }
@@ -100,7 +101,7 @@ export class AuthService {
 
   }
 
-  logout():void{
+  logout(): void{
     this._token = null;
     this._usuario = null;
     sessionStorage.clear();

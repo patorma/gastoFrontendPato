@@ -22,7 +22,7 @@ import { FormsModule } from "@angular/forms";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
 import localeEs from '@angular/common/locales/es';
-import {registerLocaleData} from '@angular/common';
+import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angular/common';
 import { FormNotaComponent } from './components/notas/form-nota.component';
 import { NoEncotradoComponent } from './components/no-encotrado/no-encotrado.component';
 import { Paginador2Component } from './components/paginador2/paginador2.component';
@@ -59,7 +59,7 @@ registerLocaleData(localeEs,'es')
     MatDatepickerModule,
     MatNativeDateModule , 
   ],
-  providers: [GastoService, ModalService,{provide: LOCALE_ID, useValue: 'es'}],
+  providers: [GastoService, ModalService,{provide: LOCALE_ID, useValue: 'es'},{provide: LocationStrategy,useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
