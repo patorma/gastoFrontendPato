@@ -33,6 +33,8 @@ import { LoginComponent } from './components/usuarios/login.component';
 import { AuthInterceptor } from './components/usuarios/interceptors/auth-interceptor';
 import { AuthService } from './services/auth.service';
 import { NotaService } from './services/nota.service';
+import { TiposComponent } from './components/tipos/tipos.component';
+import { LocalesComponent } from './components/locales/locales.component';
 
 registerLocaleData(localeEs,'es')
 
@@ -52,6 +54,8 @@ registerLocaleData(localeEs,'es')
     FiltroComponent,
     MostrarComponent,
     LoginComponent,
+    TiposComponent,
+    LocalesComponent,
   
   ],
   imports: [

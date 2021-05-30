@@ -7,6 +7,8 @@ import { Gasto } from '../components/gastos/gasto';
 
 
 import swal from 'sweetalert2';
+import { Tipo } from '../components/tipos/Tipo';
+import { Local } from '../components/locales/Local';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +65,25 @@ export class GastoService {
   //   )
 
   // }
+
+  getTipo():Observable<Tipo[]>{
+    return this.http.get<Tipo[]>(this.urlEndPoint + "/tipos").pipe(
+      catchError(e => {
+    
+        return throwError(e)
+      })
+    );
+  }
+
+  getLocal():Observable<Local[]>{
+
+    return this.http.get<Local[]>(this.urlEndPoint + "/locales").pipe(
+      catchError(e => {
+    
+        return throwError(e)
+      })
+    )
+  }
 
   getTotal(): Observable<any> {
     return this.http

@@ -1,43 +1,39 @@
 <div class="abrir-modal animacion fadeIn" *ngIf="modalService.modal">
-     <div class="modal" tabindex="-1" role="dialog" style="display: block;">
-         <div class="modal-dialog modal-lg">
-             <div class="modal-content">
-                   <div class="modal-header">
+    <div class="modal" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
                     <h2 class="modal-title">{{ titulo }} | <span class="badge badge-dark">${{gasto.valor}}</span><span class="badge badge-dark">{{gasto.nombre}}</span> <span class="badge badge-dark">{{gasto.fecha | date: "fullDate" }}</span></h2>
                     <button (click)="cerrarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                      </button>
-                   </div>
-                      <div class="modal-body">
-                         <div class="container">
-                             <div class="row">
-                                <div class="col-sm">
-                                    <!-- detalle de gasto,mb margen bajo  -->
-                                    <ul *ngIf="gasto" class="list-group text-dark mb-3">
-                                        <li class="list-group-item active">Descripcion</li>
-                                        <li class="list-group-item">{{ gasto.descripcion }}</li>
-                                        <!-- <li class="list-group-item active">Fecha</li> -->
-                                        <!-- <li class="list-group-item">
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <!-- detalle de gasto,mb margen bajo  -->
+                                <ul *ngIf="gasto" class="list-group text-dark mb-3">
+                                    <li class="list-group-item active">Descripcion</li>
+                                    <li class="list-group-item">{{ gasto.descripcion }}</li>
+                                    <li class="list-group-item">{{ gasto.local.nombreLocal }}</li>
+                                    <!-- <li class="list-group-item active">Fecha</li> -->
+                                    <!-- <li class="list-group-item">
                                             {{ gasto.fecha | date: "fullDate" }}
                                         </li> -->
-                                        <!-- <li class="list-group-item active">Valor</li>
+                                    <!-- <li class="list-group-item active">Valor</li>
                                         <li class="list-group-item">{{ gasto.valor }}</li> -->
-                                    </ul>
-                                </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                        <button
-                          (click)="cerrarModal()"
-                          type="button"
-                          class="btn btn-secondary"
-                          data-dismiss="modal"
-                        >
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button (click)="cerrarModal()" type="button" class="btn btn-secondary" data-dismiss="modal">
                           Close
                         </button>
-                      </div>
-             </div>
-         </div>
-     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

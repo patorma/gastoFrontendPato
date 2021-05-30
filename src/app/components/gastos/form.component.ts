@@ -3,6 +3,8 @@ import { Gasto } from './gasto';
 import { GastoService } from '../../services/gasto.service';
 import { Router, ActivatedRoute } from "@angular/router";
 import swal from "sweetalert2";
+import { Tipo } from '../tipos/Tipo';
+import { Local } from '../locales/Local';
 
 @Component({
   selector: 'app-form',
@@ -14,11 +16,15 @@ export class FormComponent implements OnInit {
   public gasto: Gasto = new Gasto();
   public titulo: string = "Crear gasto"; 
   public errores: string[];
-  datos:string[];
+  tipos: Tipo[];
+  locales: Local[];
+  //datos:string[];
+
+
 
   constructor(private gastoService: GastoService,private router: Router,
     private activatedRoute: ActivatedRoute) {
-      this.datos =['GASTO_COMUN','OTROS']
+      //this.datos =['GASTO_COMUN','OTROS']
      }
 
   ngOnInit(): void {
@@ -36,7 +42,15 @@ export class FormComponent implements OnInit {
             .getGasto(id)
             .subscribe((gasto) => (this.gasto = gasto))
         }
-      })
+      });
+      this.gastoService
+        .getTipo()
+        .subscribe((tipos) => (this.tipos = tipos));
+
+      this.gastoService
+       .getLocal()
+       .subscribe(locales => this.locales = locales);
+
   }
 
   public create(): void{
@@ -104,4 +118,31 @@ export class FormComponent implements OnInit {
     )
   }
 
+    // el primer objeto corresponde a cada una de los tipos del ng
+  // el segundo objeto es el objeto asignado al gasto y ahi hay que comparar
+  compararTipo(o1: Tipo, o2: Tipo) : boolean{
+     // se compara el objeto 1 y el objeto 2
+    // si es undefined se deja marcado el seleccionar con un mensaje
+    if (o1  ===  undefined &&  o2  ===  undefined ){
+      return true;
+    }
+
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined
+      ? false
+      : o1.id === o2.id;
+  }
+
+  // el primer objeto corresponde a cada una de los locales del ng
+  // el segundo objeto es el objeto asignado al gasto y ahi hay que comparar
+  compararLocal(o1: Local, o2: Local): boolean{
+      // se compara el objeto 1 y el objeto 2
+    // si es undefined se deja marcado el seleccionar con un mensaje
+    if (o1  ===  undefined &&  o2  ===  undefined ){
+      return true;
+    }
+
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined
+      ? false
+      : o1.id === o2.id;
+  }
 }

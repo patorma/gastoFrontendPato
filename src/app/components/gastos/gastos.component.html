@@ -40,7 +40,7 @@
                         </td>
                         <td>{{ gasto.nombre }}</td>
                         <td>{{ gasto.valor | currency:'CLP':'symbol-narrow' }}</td>
-                        <td>{{ gasto.tipo}}</td>
+                        <td>{{ gasto.tipo.tipo}}</td>
                         <td>{{ gasto.fecha | date: "EEEE dd, MMMM yyyy" }}</td>
                         <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                             <button type="button" name="editar" [routerLink]="['/gastos/form', gasto.id]" class="btn btn-primary">
