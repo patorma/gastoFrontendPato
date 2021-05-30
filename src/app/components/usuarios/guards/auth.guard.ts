@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (this.authService.isAuthenticated()) {
+     
       if(this.isTokenExpirado()){
         this.authService.logout();
         this.router.navigate(['/login']);

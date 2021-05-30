@@ -1,53 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import {  HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Gasto } from '../components/gastos/gasto';
+
+
 import swal from 'sweetalert2';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GastoService {
   private urlEndPoint: string = 'http://localhost:8080/api/gastos';
-  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  // private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private authService: AuthService
+    private router: Router
   ) {}
 
-  private agregarAuthorizationHeader() {
-    // obtenemos el token mediante authService
-    let token = this.authService.token;
-    if (token != null) {
-      return this.httpHeaders.append('Authorization', 'Bearer ' + token);
-    }
+  // private agregarAuthorizationHeader() {
+  //   // obtenemos el token mediante authService
+  //   let token = this.authService.token;
+  //   if (token != null) {
+  //     return this.httpHeaders.append('Authorization', 'Bearer ' + token);
+  //   }
 
-    return this.httpHeaders;
-  }
+  //   return this.httpHeaders;
+  // }
 
-  private isNoAutorizado(e): boolean {
-    if (e.status === 401) {
-      // cuando el token expira y es invalido en el backend
-      // se cierra sesion en angular
-      if(this.authService.isAuthenticated()){
-        this.authService.logout();
-      }
-      this.router.navigate(['/login']);
-      return true;
-    }
-    // 403 cuando no tiene el rol o permiso correspondiente
-    if (e.status === 403) {
-      swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`,'warning');
-      this.router.navigate(['/gastos']);
-      return true;
-    }
-    return false;
-  }
+ 
 
   // getTipo(): Observable<Tipo[]> {
   //   return this.http.get<Tipo[]>(this.urlEndPoint);
@@ -98,21 +81,18 @@ export class GastoService {
       swal.fire('Error', `Ingresar datos`, 'warning');
     }
     return this.http
-      .get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .get<any>(`${this.urlEndPoint}/filtrarValor/${mes}/${ano}`)
       .pipe(
         (result) => result,
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+        
           // el estado 400 viene de la validacion, un bad request
           if (e.status === 400) {
             return throwError(e);
           }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
           return throwError(e);
         })
       );
@@ -123,12 +103,12 @@ export class GastoService {
     return this.http.get(`${this.urlEndPoint}/page/${page}`).pipe(
       tap((response: any) => {
         // tomamos las respuesta y se la asignamos a la variable gastos
-        console.log('GastoService: tap 1');
+        // console.log('GastoService: tap 1');
         (response.content as Gasto[]).forEach((gasto) => {
           // se mostrara los datos de cada gasto
-          console.log(gasto.nombre);
-          console.log(gasto.valor);
-          console.log(gasto.tipo);
+          // console.log(gasto.nombre);
+          // console.log(gasto.valor);
+          // console.log(gasto.tipo);
         });
       }),
       // se transforma a gastos
@@ -144,10 +124,10 @@ export class GastoService {
         return response;
       }),
       tap((response) => {
-        console.log('GastoService: tap 2');
+        // console.log('GastoService: tap 2');
         (response.content as Gasto[]).forEach((gasto) => {
           // se mostrara los datos de cada gasto
-          console.log(gasto.nombre);
+          // console.log(gasto.nombre);
         });
       })
     );
@@ -155,39 +135,34 @@ export class GastoService {
 
   create(gasto: Gasto): Observable<Gasto> {
     return this.http
-      .post(this.urlEndPoint, gasto, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .post(this.urlEndPoint, gasto)
       .pipe(
         map((response: any) => response.gasto as Gasto),
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+         
           // el estado 400 viene de la validacion, un bad request
           if (e.status === 400) {
             return throwError(e);
           }
+          if(e.error.mensaje){
           console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+          }
           return throwError(e);
         })
       );
   }
   getGasto(id): Observable<Gasto> {
     return this.http
-      .get<Gasto>(`${this.urlEndPoint}/${id}`, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .get<Gasto>(`${this.urlEndPoint}/${id}`)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+            if(e.status != 401 && e.error.mensaje){
           /*capturamos el error y redirigimos a gastos*/
           this.router.navigate(['/gastos']);
           console.error(e.error.mensaje);
-          swal.fire('Error al editar', e.error.mensaje, 'error');
+        }
+         
+          // swal.fire('Error al editar', e.error.mensaje, 'error');
           return throwError(e);
         })
       );
@@ -195,20 +170,17 @@ export class GastoService {
 
   update(gasto: Gasto): Observable<any> {
     return this.http
-      .put<any>(`${this.urlEndPoint}/${gasto.id}`, gasto, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .put<any>(`${this.urlEndPoint}/${gasto.id}`, gasto)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+       
 
           if (e.status === 400) {
             return throwError(e);
           }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
           return throwError(e);
         })
       );
@@ -216,16 +188,13 @@ export class GastoService {
 
   delete(id: number): Observable<Gasto> {
     return this.http
-      .delete<Gasto>(`${this.urlEndPoint}/${id}`, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .delete<Gasto>(`${this.urlEndPoint}/${id}`)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+         
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
           return throwError(e);
         })
       );

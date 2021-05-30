@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
       swal.fire('Login',`Hola ${this.authService.usuario.username} ya estás autenticado!`,'info');
       this.router.navigate(['/gastos']);
     }
+
+ 
   }
 
   login(): void{

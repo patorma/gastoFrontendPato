@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Nota } from '../components/notas/nota.model';
-import swal from 'sweetalert2';
+
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class NotaService {
   private urlEndPoint: string = 'http://localhost:8080/api/notas';
 
   //cabeceras de la peticion
-  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  // private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(
     private http: HttpClient,
@@ -23,28 +23,28 @@ export class NotaService {
     private authService: AuthService
   ) {}
 
-  private agregarAuthorizationHeader() {
-    let token = this.authService.token;
-    if (token != null) {
-      return this.httpHeaders.append('Authorization', 'Bearer ' + token);
-    }
+  // private agregarAuthorizationHeader() {
+  //   let token = this.authService.token;
+  //   if (token != null) {
+  //     return this.httpHeaders.append('Authorization', 'Bearer ' + token);
+  //   }
 
-    return this.httpHeaders;
-  }
+  //   return this.httpHeaders;
+  // }
 
-  private isNoAutorizado(e): boolean {
-    if (e.status === 401 ) {
-      this.router.navigate(['/login']);
-      return true;
-    }
+  // private isNoAutorizado(e): boolean {
+  //   if (e.status === 401 ) {
+  //     this.router.navigate(['/login']);
+  //     return true;
+  //   }
 
-    if ( e.status === 403) {
-      swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`,'warning');
-      this.router.navigate(['/notas']);
-      return true;
-    }
-    return false;
-  }
+  //   if ( e.status === 403) {
+  //     swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`,'warning');
+  //     this.router.navigate(['/notas']);
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   getNotas(page: number): Observable<any> {
     /*se hace un cast porque devuelve un observable de notas*/
@@ -86,21 +86,18 @@ export class NotaService {
 
   create(nota: Nota): Observable<Nota> {
     return this.http
-      .post(this.urlEndPoint, nota, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .post(this.urlEndPoint, nota)
       .pipe(
         map((response: any) => response.nota as Nota),
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+          
           // el estado 400 viene de la validacion, un bad request
           if (e.status === 400) {
             return throwError(e);
           }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
           return throwError(e);
         })
       );
@@ -108,18 +105,16 @@ export class NotaService {
 
   getNota(id): Observable<Nota> {
     return this.http
-      .get<Nota>(`${this.urlEndPoint}/${id}`, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .get<Nota>(`${this.urlEndPoint}/${id}`)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
+         
           /*capturamos el error y redirigimos a notas*/
-          this.router.navigate(['/notas']);
-          console.error(e.error.mensaje);
-          swal.fire('Error al editar', e.error.mensaje, 'error');
+          if(e.status != 401 && e.error.mensaje){
+            this.router.navigate(['/notas']);
+            console.error(e.error.mensaje);
+          }
+         
           return throwError(e);
         })
       );
@@ -127,35 +122,29 @@ export class NotaService {
 
   update(nota: Nota): Observable<any> {
     return this.http
-      .put<any>(`${this.urlEndPoint}/${nota.id}`, nota, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .put<any>(`${this.urlEndPoint}/${nota.id}`, nota)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
           if (e.status == 400) {
             return throwError(e);
           }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
+      
           return throwError(e);
         })
       );
   }
   delete(id: number): Observable<Nota> {
     return this.http
-      .delete<Nota>(`${this.urlEndPoint}/${id}`, {
-        headers: this.agregarAuthorizationHeader(),
-      })
+      .delete<Nota>(`${this.urlEndPoint}/${id}`)
       .pipe(
         catchError((e) => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
+         
+          if(e.error.mensaje){
+            console.error(e.error.mensaje);
+            }
           return throwError(e);
         })
       );

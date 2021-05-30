@@ -11,9 +11,10 @@ import { AuthGuard } from './components/usuarios/guards/auth.guard';
 import { RoleGuard } from './components/usuarios/guards/role.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/gastos', pathMatch: 'full' },
+ 
   { path: 'gastos', component: GastosComponent},
   { path: 'gastos/page/:page', component: GastosComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'gastos/form',
     component: FormComponent,
@@ -46,8 +47,9 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'ROLE_USER' }
   },
-  { path: 'login', component: LoginComponent },
-  { path: '**', component: NoEncotradoComponent },
+ 
+  { path: '', redirectTo: '/gastos', pathMatch: 'full' },
+  { path: '**', component: NoEncotradoComponent }
 ];
 
 @NgModule({

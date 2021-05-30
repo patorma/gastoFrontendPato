@@ -1,3 +1,4 @@
+import { TokenInterceptor } from './components/usuarios/interceptors/token-interceptor';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule,LOCALE_ID  } from '@angular/core';
@@ -9,7 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GastosComponent } from './components/gastos/gastos.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GastoService } from './services/gasto.service';
 import { ModalService } from './services/modal.service';
 import { DetalleComponent } from './components/gastos/detalle/detalle.component';
@@ -29,6 +30,9 @@ import { Paginador2Component } from './components/paginador2/paginador2.componen
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { MostrarComponent } from './components/mostrar/mostrar.component';
 import { LoginComponent } from './components/usuarios/login.component';
+import { AuthInterceptor } from './components/usuarios/interceptors/auth-interceptor';
+import { AuthService } from './services/auth.service';
+import { NotaService } from './services/nota.service';
 
 registerLocaleData(localeEs,'es')
 
@@ -54,12 +58,14 @@ registerLocaleData(localeEs,'es')
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    HttpClientModule,      
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule , 
   ],
-  providers: [GastoService, ModalService,{provide: LOCALE_ID, useValue: 'es'},{provide: LocationStrategy,useClass: HashLocationStrategy}],
+  providers: [GastoService, AuthService,NotaService,  ModalService,{provide: LOCALE_ID, useValue: 'es'},{provide: LocationStrategy,useClass: HashLocationStrategy},
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -69,6 +69,7 @@ export class AuthService {
     //ahora guardamos en sessionstore
     //JSON.stringify() convierte un objeto en un string
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario))
+    
   }
 
   guardarToken(accessToken: string): void{

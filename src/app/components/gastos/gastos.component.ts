@@ -29,6 +29,17 @@ export class GastosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
+   
+  //  if(this.authService.isAuthenticated){
+  //   console.log(sessionStorage.getItem('token'))
+  //   let d =sessionStorage.getItem('token')
+  //   this.authService.guardarToken(d)
+    
+  //  }else {
+  //    console.log('no')
+  //  }
+   
     // paramMap se encarga de observar entonces se subscribe
     // esto se encarga de subscribirse a un observador
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -46,12 +57,12 @@ export class GastosComponent implements OnInit {
         .pipe(
           tap((response) => {
             let valorTotal: number = 0;
-            console.log('GastosComponent: tap 3');
+            // console.log('GastosComponent: tap 3');
             (response.content as Gasto[]).forEach((gasto) => {
-              console.log('aca inicia la prueba')
-              console.log(gasto.nombre);
-              console.log(gasto.valor);
-              console.log('hola aca probando')
+              // console.log('aca inicia la prueba')
+              // console.log(gasto.nombre);
+              // console.log(gasto.valor);
+              // console.log('hola aca probando')
 
             });
           }) //response.content lista de objeto gastos y se asigna al atributo gasto
@@ -69,17 +80,26 @@ export class GastosComponent implements OnInit {
     this.gastoService.getTotal().subscribe((result) =>
     {
       this.valor = result
-      console.log('aca va el valor total')
-      console.log(this.valor)
+      // console.log('aca va el valor total')
+      // console.log(this.valor)
     }),
 
     this.gastoService.getCantidad().subscribe((result) =>{
       this.cantidad = result
     })
+
+  //  if(this.authService.isAuthenticated()){
+  //    console.log('yes')
+  //    let token = this.authService.token;
+  //    sessionStorage.setItem('token',token);
+  //  }else {
+  //    console.log('no')
+  //  }
+    
     
   }
 
-  
+
 
   public delete(gasto: Gasto): void {
     const swalWithBootstrapButtons = swal.mixin({
@@ -130,7 +150,7 @@ export class GastosComponent implements OnInit {
         valorTotal += gast.valor
       })
     }
-    console.log(valorTotal)
+    // console.log(valorTotal)
     return valorTotal
   }
 
