@@ -10,6 +10,7 @@ export class AuthService {
 
   private _usuario: Usuario;
   private _token: string;
+  private _refresh_token: string;
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,16 @@ export class AuthService {
      // se retorna una instancia den Usuario pero vacia sin datos
     return new Usuario();
 
+  }
+
+  public get refreshToken(): string{
+    if(this._refresh_token!= null){
+      return this._refresh_token;
+    } else if ( this._refresh_token  === null && sessionStorage.getItem('refresh_token') != null){
+      this._refresh_token = sessionStorage.getItem('refresh_token');
+      return this._refresh_token;
+    }
+    return null;
   }
 
   public get token(): string{
@@ -58,6 +69,23 @@ export class AuthService {
      return this.http.post<any>(urlEndPoint,params.toString(),{headers: httpHeaders});
   }
 
+  actualizarToken(refreshToken: string): Observable<any> {
+    const urlEndPoint = 'http://localhost:8080/oauth/token';
+ 
+    const credentials = btoa('angularapp' + ':' + '12345');
+ 
+    const httpHeaders = new HttpHeaders(
+      {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${credentials}`
+      })
+ 
+    let params = new URLSearchParams();
+    params.set('grant_type', 'refresh_token');
+    params.set('refresh_token', refreshToken);
+    return this.http.post<any>(urlEndPoint, params.toString(), { headers: httpHeaders })
+  }
+
   guardarUsuario(accessToken: string): void{
     let payload = this.obtenerDatosToken(accessToken);
     this._usuario = new Usuario();
@@ -76,6 +104,11 @@ export class AuthService {
     this._token = accessToken;
     sessionStorage.setItem('token', accessToken);
   }
+
+  guardarRefreshToken(refreshToken: string): void{
+    this._refresh_token = refreshToken;
+    sessionStorage.setItem('refresh_token', refreshToken);
+  }
   
   obtenerDatosToken(accessToken: string): any{
      if(accessToken != null){
@@ -93,7 +126,10 @@ export class AuthService {
     }
     return false;
   }
-
+  // loggedIn() {
+  //   // si tiene el token esta logeado , sino no esta logueado
+  //   return !!sessionStorage.getItem("token");
+  // }
   hasRole(role: string): boolean{
     if(this.usuario.roles.includes(role)){
       return true;

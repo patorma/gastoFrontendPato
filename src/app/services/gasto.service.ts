@@ -139,6 +139,7 @@ export class GastoService {
         (response.content as Gasto[]).map((gasto) => {
           //pasa a mayuscula el nombre del gasto
           gasto.nombre = gasto.nombre.toUpperCase();
+          gasto.tipo.tipo = gasto.tipo.tipo.toUpperCase();
           // se retorna el gasto modificado
           return gasto;
         });

@@ -56,7 +56,7 @@ export class GastosComponent implements OnInit {
         .getGastos(page)
         .pipe(
           tap((response) => {
-            let valorTotal: number = 0;
+            // let valorTotal: number = 0;
             // console.log('GastosComponent: tap 3');
             (response.content as Gasto[]).forEach((gasto) => {
               // console.log('aca inicia la prueba')

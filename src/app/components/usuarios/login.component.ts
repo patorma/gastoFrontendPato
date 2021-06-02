@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.guardarUsuario(response.access_token);
       this.authService.guardarToken(response.access_token);
+      this.authService.guardarRefreshToken(response.refresh_token);
       let usuario = this.authService.usuario; 
 
       this.router.navigate(['/gastos'])

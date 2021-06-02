@@ -17,11 +17,12 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let token = this.authService.token;
-    if (token != null) {
+    if (token != null && req.url.indexOf('/oauth/token') < 0) {
       const authReq = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + token),
+        headers: req.headers.set('Authorization', 'Bearer ' + token)
       });
       console.log('TokenInterceptor => Bearer ' + token);
+     
       return next.handle(authReq);
       
     }
