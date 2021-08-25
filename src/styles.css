@@ -6,17 +6,18 @@ html {
 }
 
 body {
-   
     margin-bottom: 60px;
     min-height: 100%;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     /* padding-bottom: 70px; */
-    
 }
 
 .wrap {
     padding-bottom: 60px;
-    
+}
+
+.f {
+    margin: 600px 0px 0px 0px;
 }
 
 
@@ -28,5 +29,13 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 } */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
