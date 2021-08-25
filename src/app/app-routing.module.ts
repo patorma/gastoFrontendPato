@@ -10,6 +10,7 @@ import { LoginComponent } from './components/usuarios/login.component';
 import { AuthGuard } from './components/usuarios/guards/auth.guard';
 import { RoleGuard } from './components/usuarios/guards/role.guard';
 import { VerificaTokenGuard } from './components/usuarios/guards/verifica-token.guard';
+import { UsuarioComponent } from './components/usuarios/usuario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/gastos', pathMatch: 'full' },
@@ -47,6 +48,20 @@ const routes: Routes = [
     component: FiltroComponent,
     canActivate: [AuthGuard, RoleGuard,VerificaTokenGuard ],
     data: { role: 'ROLE_USER' }
+  },
+
+  {
+    path: 'usuarios',
+    component: UsuarioComponent,
+    canActivate: [AuthGuard, RoleGuard,VerificaTokenGuard ],
+    data: { role: 'ROLE_ADMIN' }
+  },
+
+  {
+    path: 'usuarios/page/:page',
+    component: UsuarioComponent,
+    canActivate: [AuthGuard, RoleGuard,VerificaTokenGuard ],
+    data: { role: 'ROLE_ADMIN' }
   },
  
   

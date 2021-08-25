@@ -35,6 +35,7 @@ import { AuthService } from './services/auth.service';
 import { NotaService } from './services/nota.service';
 import { TiposComponent } from './components/tipos/tipos.component';
 import { LocalesComponent } from './components/locales/locales.component';
+import { UsuarioComponent } from './components/usuarios/usuario.component';
 
 registerLocaleData(localeEs,'es')
 
@@ -56,6 +57,7 @@ registerLocaleData(localeEs,'es')
     LoginComponent,
     TiposComponent,
     LocalesComponent,
+    UsuarioComponent
   
   ],
   imports: [

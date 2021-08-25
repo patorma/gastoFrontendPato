@@ -2,7 +2,7 @@ export class Usuario {
     id: number;
     username: string;
     password: string;
-    nommbre: string;
+    nombre: string;
     apellido: string;
     email: string;
     roles: string[] = [];
